@@ -1,8 +1,14 @@
 package com.gcu;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +21,16 @@ import Model.User;
 public class MainController {
 	String message = "Welcome to the Order Management Application,";
 	User registeredUser = new User();
+	
+	@Autowired
+	@Qualifier("userValidator")
+	private Validator validator;
+	
+	@InitBinder
+	private void initBinder(WebDataBinder binder)
+	{
+		binder.setValidator(validator);
+	}
 	
 	@RequestMapping("/hello")
 	public ModelAndView showMessage(@RequestParam(value = "name", required = false, defaultValue = "World") String name)
@@ -33,20 +49,21 @@ public class MainController {
 		return new ModelAndView("register","user", new User());
 	}
 	
-	@RequestMapping(value="/helloworld", method = RequestMethod.POST)
-	public ModelAndView showcaseMain(@ModelAttribute("user")User user, BindingResult binding, Model model)
+	@RequestMapping(value = "/helloworld", method = RequestMethod.POST)
+	public String addUser(@ModelAttribute("user")@Validated User user, BindingResult bindingRS, Model model)
 	{
+		if(bindingRS.hasErrors())
+		{
+			return "register";
+		}
 		registeredUser = user;
-		ModelAndView mv = new ModelAndView("login");
-		mv.addObject("message", message);
-		mv.addObject("firstName", user.getFirstName());
-		return mv;
+		return "login";
 	}
 	
 	@RequestMapping(value="/displayHome")
 	public ModelAndView homePage(@ModelAttribute("user")User user)
 	{
-		ModelAndView mv = new ModelAndView("register");
+		ModelAndView mv = new ModelAndView("login");
 		if(checkLogin(user.getUsername(),user.getPassword()))
 		{
 			mv = new ModelAndView("helloworld");
