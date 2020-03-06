@@ -2,26 +2,26 @@ package Model;
 
 public class Login 
 {
-	private String userName;
-	private String passWord;
+	private String username;
+	private String password;
 	
 	public String getUsername()
 	{
-		return userName;
+		return username;
 	}
 	
 	public String getPassword()
 	{
-		return passWord;
+		return password;
 	}
 	
 	public void setUsername(String incUser)
 	{
-		this.userName = incUser;
+		this.username = incUser;
 	}
 	
 	public void setPassword(String incPass)
 	{
-		this.passWord = incPass;
+		this.password = incPass;
 	}
 }
