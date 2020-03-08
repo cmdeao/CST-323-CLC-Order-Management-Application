@@ -3,13 +3,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Spring 4 MVC -HelloWorld</title>
+<title>Welcome ${user.firstName}!</title>
 </head>
 <body>
 	<center>
 		<h2>
-			${message} ${firstName}!
+			${message} ${user.firstName}!
 		</h2>
+		<div>
+			<a href="placeOrder">Place Order</a>
+			<a href="viewOrders">View Orders</a>
+		</div>
 	</center>
+
 </body>
 </html>
