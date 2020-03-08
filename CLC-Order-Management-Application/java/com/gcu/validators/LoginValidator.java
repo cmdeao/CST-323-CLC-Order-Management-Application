@@ -1,4 +1,4 @@
-package com.gcu;
+package com.gcu.validators;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

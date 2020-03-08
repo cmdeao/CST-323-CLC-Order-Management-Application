@@ -1,4 +1,4 @@
-package com.gcu;
+package com.gcu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,12 +16,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import Model.User;
+import Model.Order;
+import com.gcu.dao.UserDao;
+import com.gcu.dao.OrderDao;
+
+import java.util.List;
 
 @Controller
 public class MainController {
 	String message = "Welcome to the Order Management Application,";
 	User registeredUser = new User();
-	
+
+	@Autowired
+	UserDao user_dao;
+
+	@Autowired
+	OrderDao order_dao;
+
 	@Autowired
 	@Qualifier("userValidator")
 	private Validator validator;
@@ -50,12 +61,13 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/helloworld", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user")@Validated User user, BindingResult bindingRS, Model model)
+	public String addUser(@ModelAttribute("user")@Validated User user, BindingResult bindingRS)
 	{
 		if(bindingRS.hasErrors())
 		{
 			return "register";
 		}
+		user_dao.save(user);
 		registeredUser = user;
 		return "login";
 	}
@@ -68,7 +80,7 @@ public class MainController {
 		{
 			mv = new ModelAndView("helloworld");
 			System.out.println("SUCCESSFUl LOGIN");
-			mv.addObject("firstName",registeredUser.getFirstName());
+			mv.addObject("user", registeredUser);
 			mv.addObject("message",message);
 			return mv;
 		}
