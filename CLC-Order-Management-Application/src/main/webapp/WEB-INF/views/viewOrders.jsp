@@ -9,16 +9,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <style>
-    .error{
-        color: #ff0000;
-    }
-    .errorblock{
-        color: #000;
-        background-color: #ffEEEE;
-        border: 3px solid #ff0000;
-        padding: 8px;
-        margin: 16px;
-    }
     table
     {
         text-align: center;
@@ -30,10 +20,18 @@
     }
 </style>
 <head>
+    <link type="text/css" rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>"/>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>View Orders</title>
 </head>
 <body>
+<ul class="nav">
+    <li><a href="hello">Home</a></li>
+    <li><a href="placeOrder">Place Order</a></li>
+    <li><a href="viewOrders" class="active">View Orders</a></li>
+</ul>
+<br>
+<div>
 <table>
     <tr>
         <th>Order ID</th>
@@ -54,7 +52,6 @@
         </tr>
     </c:forEach>
 </table>
-<br>
-<a href="placeOrder">Place another order</a>
+</div>
 </body>
 </html>

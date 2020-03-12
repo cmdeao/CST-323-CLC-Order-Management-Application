@@ -6,25 +6,22 @@
 --%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<style>
-    .error{
-        color: #ff0000;
-    }
-    .errorblock{
-        color: #000;
-        background-color: #ffEEEE;
-        border: 3px solid #ff0000;
-        padding: 8px;
-        margin: 16px;
-    }
-</style>
 <head>
+    <link type="text/css" rel="stylesheet" href="<c:url value="/resources/css/styles.css"/>"/>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Place an Order</title>
 </head>
 <body>
+<ul class="nav">
+    <li><a href="hello">Home</a></li>
+    <li><a href="placeOrder" class="active">Place Order</a></li>
+    <li><a href="viewOrders">View Orders</a></li>
+</ul>
+<br>
+<div>
 Place an Order Below:
 <form:form method="POST" action = "placeOrder" modelAttribute="order">
     <form:errors path ="*" cssClass = "errorblock" element = "div"/>
@@ -61,5 +58,6 @@ Place an Order Below:
     </tr>
     </table>
 </form:form>
+</div>
 </body>
 </html>
