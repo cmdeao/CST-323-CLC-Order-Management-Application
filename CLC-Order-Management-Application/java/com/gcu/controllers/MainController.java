@@ -23,25 +23,18 @@ import com.gcu.dao.OrderDao;
 import java.util.List;
 
 @Controller
-public class MainController {
+public class MainController 
+{
 	String message = "Welcome to the Order Management Application,";
-	User registeredUser = new User();
+	User loggedUser = new User();
+	boolean isLoggedIn = false;
+	ModelAndView mv;
 
 	@Autowired
 	UserDao user_dao;
 
 	@Autowired
 	OrderDao order_dao;
-
-	@Autowired
-	@Qualifier("userValidator")
-	private Validator validator;
-	
-	@InitBinder
-	private void initBinder(WebDataBinder binder)
-	{
-		binder.setValidator(validator);
-	}
 	
 	@RequestMapping("/hello")
 	public ModelAndView showMessage(@RequestParam(value = "name", required = false, defaultValue = "World") String name)
@@ -60,40 +53,36 @@ public class MainController {
 		return new ModelAndView("register","user", new User());
 	}
 	
-	@RequestMapping(value = "/helloworld", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("user")@Validated User user, BindingResult bindingRS)
+	@RequestMapping(value="/homePage")
+	public String checkStatus()
 	{
-		if(bindingRS.hasErrors())
+		if(isLoggedIn)
 		{
-			return "register";
+			displayHome();
 		}
-		user_dao.save(user);
-		registeredUser = user;
 		return "login";
 	}
 	
-	@RequestMapping(value="/displayHome")
-	public ModelAndView homePage(@ModelAttribute("user")User user)
+	public ModelAndView displayHome()
 	{
-		ModelAndView mv = new ModelAndView("login");
-		if(checkLogin(user.getUsername(),user.getPassword()))
-		{
-			mv = new ModelAndView("helloworld");
-			System.out.println("SUCCESSFUl LOGIN");
-			mv.addObject("user", registeredUser);
-			mv.addObject("message",message);
-			return mv;
-		}
-		System.out.println("FAILED LOGIN");
+		mv = new ModelAndView("helloworld");
+		mv.addObject("user", loggedUser);
+		mv.addObject("message", message);
 		return mv;
 	}
 	
-	public boolean checkLogin(String incUser, String incPass)
+	public void setLoggedStatus(boolean incStatus)
 	{
-		if(registeredUser.getUsername().equals(incUser) && registeredUser.getPassword().equals(incPass))
-		{
-			return true;
-		}
-		return false;
+		this.isLoggedIn = incStatus;
+	}
+	
+	public void setLoggedUser(User incUser)
+	{
+		this.loggedUser = incUser;
+	}
+	
+	public User getLoggeduser()
+	{
+		return loggedUser;
 	}
 }
