@@ -9,13 +9,11 @@ import Model.Order;
 public class OrderValidator implements Validator
 {
 
-    @Override
     public boolean supports(Class<?> valid)
     {
         return Order.class.isAssignableFrom(valid);
     }
 
-    @Override
     public void validate(Object o, Errors error)
     {
         ValidationUtils.rejectIfEmptyOrWhitespace(error, "item", "required.item",

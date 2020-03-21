@@ -18,8 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 import Model.User;
 import Model.Order;
 import com.gcu.dao.UserDao;
-import com.gcu.dao.OrderDao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.gcu.dao.OrderDao;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
@@ -27,9 +32,12 @@ public class MainController
 {
 	String message = "Welcome to the Order Management Application,";
 	User loggedUser = new User();
-	boolean isLoggedIn = false;
 	ModelAndView mv;
-
+	
+	Logger logger = LoggerFactory.getLogger(MainController.class);
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	
 	@Autowired
 	UserDao user_dao;
 
@@ -50,30 +58,19 @@ public class MainController
 	@RequestMapping(value="/register", method = RequestMethod.GET)
 	public ModelAndView displayLogin()
 	{
+		System.out.println("THIS IS A SYSTEM TEST BEFORE LOGGER");
+		logger.info("Entered MainController. Timestamp: " + sdf.format(timestamp));
 		return new ModelAndView("register","user", new User());
 	}
 	
 	@RequestMapping(value="/homePage")
-	public String checkStatus()
-	{
-		if(isLoggedIn)
-		{
-			displayHome();
-		}
-		return "login";
-	}
-	
 	public ModelAndView displayHome()
 	{
 		mv = new ModelAndView("helloworld");
 		mv.addObject("user", loggedUser);
 		mv.addObject("message", message);
+		logger.debug("Entered MainController. Timestamp: " + sdf.format(timestamp));
 		return mv;
-	}
-	
-	public void setLoggedStatus(boolean incStatus)
-	{
-		this.isLoggedIn = incStatus;
 	}
 	
 	public void setLoggedUser(User incUser)

@@ -11,10 +11,18 @@ import org.springframework.jdbc.core.RowMapper;
 import Model.Order;
 import Model.User;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class UserDao
 {
     JdbcTemplate template;
+    Logger logger = LoggerFactory.getLogger(UserDao.class);
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
     public void setTemplate(JdbcTemplate template)
     {
@@ -23,6 +31,7 @@ public class UserDao
 
     public int save(User user)
     {
+    	logger.debug("Successfully registered and stored " + user.getUsername() + " Timestamp: " + sdf.format(timestamp));
         String sql = "INSERT INTO CST323.users(first_name, last_name, email, phone_number, username, password) values('"+user.getFirstName()+"','"+user.getLastName()+"','"+user.getEmailAddress()+"','"+user.getPhoneNumber()+"','"+user.getUsername()+"','"+user.getPassword()+"');";
         return template.update(sql);
     }
@@ -37,7 +46,6 @@ public class UserDao
     {
     	String sql = "SELECT * FROM CST323.users";
     	return template.query(sql,  new RowMapper<User>() {
-    		@Override
     		public User mapRow(ResultSet resultSet, int i) throws SQLException{
     			User user = new User();
     			user.setId(resultSet.getInt(1));

@@ -16,6 +16,12 @@ import Model.Order;
 import com.gcu.dao.UserDao;
 import com.gcu.dao.OrderDao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 import java.util.List;
 
 @Controller
@@ -23,7 +29,11 @@ public class OrderController
 {
     @Autowired
     OrderDao order_dao;
-
+    
+    Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    
 //    @Autowired
 //    @Qualifier("orderValidator")
 //    private Validator validator;
@@ -39,6 +49,7 @@ public class OrderController
     {
         m.addAttribute("order", new Order());
         m.addAttribute("user", user);
+        logger.debug("Entered OrderController");
         return "placeOrder";
     }
 
@@ -46,6 +57,7 @@ public class OrderController
     public String placeOrder(@ModelAttribute("order") Order order, Model model)
     {
         order_dao.save(order);
+        logger.debug("Added order into Database. Timestamp: " + sdf.format(timestamp));
         return "redirect:/viewOrders";
     }
 
@@ -54,6 +66,16 @@ public class OrderController
     {
         List<Order> list = order_dao.getOrders();
         model.addAttribute("list", list);
+        String nameOfMethod = new Throwable().getStackTrace()[0].getMethodName();
+        
+        if(list == null || list.isEmpty())
+        {
+        	logger.error("An error occurred with the order list, within method " + nameOfMethod, list);
+        }
+        else
+        {
+        	logger.debug("Displayed orders list");
+        }
         return "viewOrders";
     }
 
