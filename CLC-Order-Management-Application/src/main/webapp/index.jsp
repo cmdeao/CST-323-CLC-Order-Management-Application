@@ -5,7 +5,7 @@ pageEncoding="ISO-8859-1"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>CST-323 Order Management Application</title>
+<title>Spring 4 MVC - HelloWorld Index Page</title>
 </head>
 <body>
  
@@ -13,6 +13,8 @@ pageEncoding="ISO-8859-1"%>
 		<h2>Welcome to the Order Management Application Registration!</h2>
 		<h3>
 			<a href = "register">Click Here to Register An Account!</a>
+			<br>
+			<a href = "altLogin">Click Here to Login!</a>
 		</h3>
 	</center>
 </body>

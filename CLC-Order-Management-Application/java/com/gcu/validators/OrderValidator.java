@@ -6,16 +6,25 @@ import org.springframework.validation.Validator;
 
 import Model.Order;
 
+/**
+ * OrderValidator class.
+ * @author Cameron Deao & John Harrison
+ *
+ */
 public class OrderValidator implements Validator
 {
 
-    @Override
+	/**
+	 * supports()
+	 */
     public boolean supports(Class<?> valid)
     {
         return Order.class.isAssignableFrom(valid);
     }
 
-    @Override
+    /**
+     * validate() - validates submitted data.
+     */
     public void validate(Object o, Errors error)
     {
         ValidationUtils.rejectIfEmptyOrWhitespace(error, "item", "required.item",

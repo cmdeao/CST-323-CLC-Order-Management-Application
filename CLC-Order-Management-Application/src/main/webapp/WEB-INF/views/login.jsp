@@ -11,6 +11,11 @@
 <title>Login</title>
 </head>
 <body>
+
+<%
+	String fName=request.getParameter("username");
+	session.setAttribute("sessName", fName);
+%>
 <div>
 Please Login to Continue:
 <form:form method="POST" action = "displayHome" modelAttribute="user">

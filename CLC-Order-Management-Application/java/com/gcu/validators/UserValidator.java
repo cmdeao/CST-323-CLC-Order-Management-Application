@@ -6,13 +6,24 @@ import org.springframework.validation.Validator;
 
 import Model.User;
 
+/**
+ * UserValidator class.
+ * @author Cameron Deao & John Harrison
+ *
+ */
 public class UserValidator implements Validator {
 	
+	/**
+	 * supports()
+	 */
 	public boolean supports(Class<?> valid) {
 		
 		return User.class.isAssignableFrom(valid);
 	}
 
+	/**
+	 * validtate() - validates submitted data.
+	 */
 	public void validate(Object arg0, Errors error) 
 	{
 		ValidationUtils.rejectIfEmptyOrWhitespace(error, "firstName", "required.firstName", 
